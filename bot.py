@@ -4,7 +4,7 @@ import discord
 from random import randint
 from discord.ext import commands
 
-client = commands.Bot(command_prefix="=", intents=discord.Intents.all())    # set prefix, and allow bot to accept all events
+client = commands.Bot(command_prefix="=", intents=discord.Intents.all(), help_command=None)    # set prefix, and allow bot to accept all events
 start_time = datetime.datetime.utcnow()  # Record the time the bot was started
 
 @client.event   # discord.py wrapper function
@@ -117,5 +117,22 @@ async def calc(ctx, expression=""):   # calc read as a string
         embed = discord.Embed(title="Usage: ``=calc``", color=0xFF9900)
         embed.add_field(name="Syntax: ``=calc <expression>``\nExample: ``=calc 2*2/10-(10-4)`` --> ``(-5.6)``\nDon't forget, no spaces!", value='', inline=False)
         await ctx.send(embed=embed)
+
+# =github command
+@client.command()
+async def github(ctx):
+    await ctx.send("`For source code, commands, and releases:` \nhttps://github.com/Julellisg/Gamious-Bot")
+
+# =help command
+@client.command(name='help')
+async def help(ctx):
+    embed = discord.Embed(title="Help / Commands", color=0xFF9900)
+    embed.add_field(name="`=ping` or `/ping`: returns \"pong!\" with latency.", value='', inline=False)
+    embed.add_field(name="`=poll -question -option 1 -option2`: spaced apart using `-` with 2-10 option limit.", value='', inline=False)
+    embed.add_field(name="`=profile @mention`: returns the discord avatar of the @mention'd user.", value='', inline=False)
+    embed.add_field(name="`=flip`: sends \"Heads!\" or \"Tails!\".", value='', inline=False)
+    embed.add_field(name="`=uptime`: send current uptime of the bot since it has gone online.", value='', inline=False)
+    embed.add_field(name="`=calc <expression>`: calculates any math expression using `eval()`.", value='', inline=False)
+    await ctx.send(embed=embed)
 
 client.run(os.getenv('DISCORD_TOKEN'))

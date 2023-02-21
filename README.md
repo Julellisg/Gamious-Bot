@@ -14,6 +14,7 @@ Commands are done using the prefix `=`:
 - Make this README.md better
 - Auto responses
 - Reminders
-- Some webscraper
+- Include information scraped from some website
 - Music player
 - Some image generator
+- Some word sorter
