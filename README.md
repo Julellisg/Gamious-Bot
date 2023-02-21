@@ -9,6 +9,7 @@ Commands are done using the prefix `=`:
 - `=flip`: sends "Heads!" or "Tails!". 
 - `=uptime`: send current uptime of the bot since it has gone online.
 - `=calc <expression>`: calculates any math expression using `eval()`.
+- `=github`: simply links back to this page.
 
 ### TODO (maybe)
 - Make this README.md better
