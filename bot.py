@@ -1,7 +1,9 @@
 import os
 import datetime
 import discord
-from random import randint
+import requests
+import json
+import random
 from discord.ext import commands
 
 client = commands.Bot(command_prefix="=", intents=discord.Intents.all(), help_command=None)    # set prefix, and allow bot to accept all events
@@ -19,13 +21,13 @@ async def ping(interaction: discord.Interaction):
     await interaction.response.send_message(f"ping! *{round(client.latency*1000)}ms*")
 
 # =ping command 
-@client.command()
+@client.command(name='ping')
 async def ping(ctx):                    # when someone says "ping"
     latency = round(client.latency * 1000)
     await ctx.message.reply(f'pong! *{latency}ms*')
 
 # =poll command
-@client.command()
+@client.command(name='poll')
 async def poll(ctx, *message):
     # check if empty first
     if len(message) <= 2:
@@ -63,7 +65,7 @@ async def poll(ctx, *message):
         await message.add_reaction(emoji)
 
 # =profile command
-@client.command()
+@client.command(name='profile')
 async def profile(ctx, member: discord.Member):
     member_name = member.name + member.discriminator
     pfp_url = member.avatar.url # retrieves avatar url of @mention user
@@ -76,15 +78,15 @@ async def profile(ctx, member: discord.Member):
     await ctx.message.reply(embed=embed)
 
 # =flip command 
-@client.command()
+@client.command(name='flip')
 async def flip(ctx):
-    coin = randint(0, 1)
+    coin = random.randint(0, 1)
     
     if coin == 0:
         embed = discord.Embed(
-        title="Heads!",
-        color=0xFF9900
-    )
+            title="Heads!",
+            color=0xFF9900
+        )
     else:
         embed = discord.Embed(
         title="Tails!",
@@ -93,7 +95,7 @@ async def flip(ctx):
     await ctx.message.reply(embed=embed)
 
 # =uptime command
-@client.command()
+@client.command(name='uptime')
 async def uptime(ctx):
     total_time = datetime.datetime.utcnow() - start_time
     hours, remainder = divmod(int(total_time.total_seconds()), 3600)
@@ -106,8 +108,8 @@ async def uptime(ctx):
     await ctx.send(embed=embed)
 
 # =calc command
-@client.command()
-async def calc(ctx, expression=""):   # calc read as a string
+@client.command(name='calc')
+async def calc(ctx, expression):   # calc read as a string
     try:
         result = eval(expression)
         embed = discord.Embed(title=expression, color=0xFF9900)
@@ -119,7 +121,7 @@ async def calc(ctx, expression=""):   # calc read as a string
         await ctx.send(embed=embed)
 
 # =github command
-@client.command()
+@client.command(name='github')
 async def github(ctx):
     await ctx.send("`For source code, commands, and releases:` \nhttps://github.com/Julellisg/Gamious-Bot")
 
@@ -135,4 +137,46 @@ async def help(ctx):
     embed.add_field(name="`=calc <expression>`: calculates any math expression using `eval()`.", value='', inline=False)
     await ctx.send(embed=embed)
 
+# =sort command
+@client.command(name='sort')
+async def sort(ctx, *unsorted):
+    sorted_list = list(unsorted)    # converts a tuple to a list
+    sorted_list.sort()              # sort the list
+    embed = discord.Embed(color=0xFF9900)
+    result = ""
+    for i in sorted_list:
+        result += i+" "
+    embed.add_field(name=result, value='', inline=False)
+    await ctx.send(embed=embed)
+
+# =sortr command
+@client.command(name='sortr')
+async def sortr(ctx, *unsorted):
+    sorted_list = list(unsorted)    # converts a tuple to a list
+    sorted_list.sort(reverse=True)              # sort the list
+    embed = discord.Embed(color=0xFF9900)
+    result = ""
+    for i in sorted_list:
+        result += i+" "
+    embed.add_field(name=result, value='', inline=False)
+    await ctx.send(embed=embed)
+
+# =dog command
+@commands.command(name='dog')
+async def dog(ctx, breed=""):
+    if len(breed) <= 0:
+        endpoint = "https://dog.ceo/api/breeds/image/random/"
+    else:
+        endpoint = f"https://dog.ceo/api/breed/{breed}/images/random/"
+    
+    response = requests.get(endpoint)
+    data = json.loads(response.content)
+    image_url = data["message"]
+
+    embed = discord.Embed(color=0xFF9900)
+    embed.set_image(url=image_url)
+    await ctx.send(embed=embed)
+
+
+client.add_command(dog)
 client.run(os.getenv('DISCORD_TOKEN'))

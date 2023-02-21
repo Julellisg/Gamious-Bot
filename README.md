@@ -14,8 +14,6 @@ Commands are done using the prefix `=`:
 ### TODO (maybe)
 - Make this README.md better
 - Auto responses
-- Reminders
-- Include information scraped from some website
-- Music player
-- Some image generator
-- Some word sorter
+- Reminders/Set timed messages
+- Some image generator~~
+- ~~Some word sorter~~
