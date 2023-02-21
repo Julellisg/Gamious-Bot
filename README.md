@@ -1,8 +1,8 @@
 # Gamious-Bot
-Private Discord bot named "Gamious", used as an introduction to learning Python and for personal use for myself and friends.
+A private Discord bot featuring 10+ utility/quality-of-life functions for myself and friends on our servers.
 
 ## Commands
-Commands are done using the prefix `=`:
+Commands are done using the prefix `=` or `\`:
 - `=calc <expression>`: calculates any math expression using `eval()`.
 - `=coinflip`: sends "Heads!" or "Tails!". 
 - `=dice <# dices> <# sides>`: returns total of dice roll.
