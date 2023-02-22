@@ -5,9 +5,11 @@ import json
 import random
 # import asyncio
 import humanfriendly
+from dotenv import load_dotenv
 from datetime import datetime, timedelta, timezone
 from discord.ext import commands
 from googleapiclient.discovery import build
+load_dotenv()
 
 client = commands.Bot(command_prefix="=", intents=discord.Intents.all(), help_command=None)    # set prefix, and allow bot to accept all events
 start_time = datetime.utcnow()  # Record the time the bot was started
@@ -196,6 +198,11 @@ async def profile(ctx, member: discord.Member):
 # =sort command
 @client.command(name='sort')
 async def sort(ctx, *unsorted):
+    if len(unsorted) == 0:
+        embed = discord.Embed(title="Usage: `=sort`", color=0xFF9900)
+        embed.add_field(name="", value="Syntax: `=sort <list> <of> <words>`\nExample: `=sortr sort these in order`\nDon't forget, no spaces!", inline=False)
+        await ctx.send(embed=embed)
+        return
     sorted_list = list(unsorted)    # converts a tuple to a list
     sorted_list.sort()              # sort the list
     embed = discord.Embed(color=0xFF9900)
@@ -208,6 +215,11 @@ async def sort(ctx, *unsorted):
 # =sortr command
 @client.command(name='sortr')
 async def sortr(ctx, *unsorted):
+    if len(unsorted) == 0:
+        embed = discord.Embed(title="Usage: `=sortr`", color=0xFF9900)
+        embed.add_field(name="", value="Syntax: `=sortr <list> <of> <words>`\nExample: `=sortr sort these in reverse`\nDon't forget, no spaces!", inline=False)
+        await ctx.send(embed=embed)
+        return
     sorted_list = list(unsorted)    # converts a tuple to a list
     sorted_list.sort(reverse=True)              # sort the list
     embed = discord.Embed(color=0xFF9900)
