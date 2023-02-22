@@ -16,9 +16,12 @@ Commands are done using the prefix `=` or `\`:
 - `=sort`: sorts a set of numbers/words in order. 
 - `=sortr`: sorts a set of numbers/words in reverse-order. 
 - `=uptime`: send current uptime of the bot since it has gone online.
+- `=yt <search query>`: returns 5 results of a given search query, otherwise an empty search returns 5 random videos. 
+  - **Disclaimer**: While this Discord bot uses **YouTube Data API v3**, it is not affiliated with, maintained, endorsed or sponsored by YouTube, LLC or any of its affiliates. As such this is not an official feature endorsed by YouTube or Google. 
 
 ### TODO (maybe)
 - Make this README.md better
-- Youtube Video searcher (scraper?)
+- ~~Youtube Video searcher~~
 - Auto responses to keywords
 - Something copypasta related
+- Tiktok video finder
