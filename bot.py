@@ -35,7 +35,7 @@ async def on_ready():
 
 # =calc command
 @client.command(name='calc')
-async def calc(ctx, expression):   # calc read as a string
+async def calc(ctx, expression=''):   # calc read as a string
     try:
         result = eval(expression)
         embed = discord.Embed(title=expression, color=0xFF9900)
@@ -43,7 +43,7 @@ async def calc(ctx, expression):   # calc read as a string
         await ctx.send(embed=embed)
     except (SyntaxError, NameError) as error:
         embed = discord.Embed(title="Usage: `=calc`", color=0xFF9900)
-        embed.add_field(name="Syntax: `=calc <expression>`\nExample: `=calc 2*2/10-(10-4)` --> `(-5.6)`\nDon't forget, no spaces!", value='', inline=False)
+        embed.add_field(name="", value="Syntax: `=calc <expression>`\nExample: `=calc 2*2/10-(10-4)` --> `(-5.6)`\nDon't forget, no spaces!", inline=False)
         await ctx.send(embed=embed)
 
 # =coinflip command 
@@ -53,12 +53,12 @@ async def coinflip(ctx):
     
     if coin == 0:
         embed = discord.Embed(
-            title="Heads!",
+            description="Heads!",
             color=0xFF9900
         )
     else:
         embed = discord.Embed(
-        title="Tails!",
+        description="Tails!",
         color=0xFF9900
     )
     await ctx.message.reply(embed=embed)
@@ -73,14 +73,14 @@ async def dice(ctx, amount=None, sides=None):
         embed = discord.Embed(title=f"Roll (x{amount}) D{sides} Dice", color=0xFF9900)
         for i in range(amount):
             total += random.randint(0, sides)
-        embed.add_field(name=f"Total:\t{total}", value='', inline=False)
+        embed.add_field(name="", value=f'Total:\t**{total}**', inline=False)
     except:
         embed = discord.Embed(title=f"Usage: `=dice`", color=0xFF9900)
-        embed.add_field(name=f"Syntax: `=dice <# of dices> <# of sides>`\nExample: `=dice 2 8`", value='', inline=False)
+        embed.add_field(name=f"", value='Syntax: `=dice <# of dices> <# of sides>`\nExample: `=dice 2 8`', inline=False)
         
     await ctx.send(embed=embed)
 
-    # =dog command
+# =dog command
 @commands.command(name='dog')
 async def dog(ctx, breed=""):
     if len(breed) <= 0:
@@ -105,14 +105,26 @@ async def github(ctx):
 # =help command
 @client.command(name='help')
 async def help(ctx):
+    rules = """
+    `=calc <expression>`: calculates any math expression using `eval()`
+    `=coinflip`: sends \"Heads!\" or \"Tails!\".
+    `=dice <# dices> <# sides>`: returns total of dice roll.
+    `=dog` or `=dog <breed>`: sends a picture of a random/chosen breed of dog.
+    `=github`: links to the github origin page
+    `=help`: basically gives list of commands.
+    `/loldle`: sends the LoLdle link.
+    `=ping` or `/ping`: returns \"pong!\" with latency.
+    `=poll -question -option 1 -option2`: spaced apart using `-` with 2-10 option limit.
+    `=profile @mention`: returns the discord avatar of the @mention'd user.
+    `=sort`: sorts a set of numbers/words in order.
+    `=sortr`: sorts a set of numbers/words in reverse-order.
+    `=uptime`: send current uptime of the bot since it has gone online.
+    `=yt <search query>`: returns 5 results of a given search query, otherwise an empty search returns 5 random videos.
+    """
     embed = discord.Embed(title="Help / Commands", color=0xFF9900)
-    embed.add_field(name="`=ping` or `/ping`: returns \"pong!\" with latency.", value='', inline=False)
-    embed.add_field(name="`=poll -question -option 1 -option2`: spaced apart using `-` with 2-10 option limit.", value='', inline=False)
-    embed.add_field(name="`=profile @mention`: returns the discord avatar of the @mention'd user.", value='', inline=False)
-    embed.add_field(name="`=flip`: sends \"Heads!\" or \"Tails!\".", value='', inline=False)
-    embed.add_field(name="`=uptime`: send current uptime of the bot since it has gone online.", value='', inline=False)
-    embed.add_field(name="`=calc <expression>`: calculates any math expression using `eval()`.", value='', inline=False)
-    await ctx.send(embed=embed)
+    embed.add_field(name='', value=rules, inline=False)
+
+    await ctx.send(embed=embed, allowed_mentions=None)
 
 # /loldle command
 @client.tree.command(name="loldle", description="Sends the link to LoLdle.")
@@ -160,7 +172,7 @@ async def poll(ctx, *message):
     # add each of the options into embedded message
     for i, option in enumerate(substring[1:]):
         emoji = emojis[i]
-        embed.add_field(name=f"{emoji}\t{option}", value='', inline=False)
+        embed.add_field(name="", value=f'{emoji}\t{option}', inline=False)
 
     # print the embedded message and react onto the message using emojis
     message = await ctx.send(embed=embed)
@@ -190,7 +202,7 @@ async def sort(ctx, *unsorted):
     result = ""
     for i in sorted_list:
         result += i+" "
-    embed.add_field(name=result, value='', inline=False)
+    embed.add_field(name='', value=result, inline=False)
     await ctx.send(embed=embed)
 
 # =sortr command
@@ -202,13 +214,13 @@ async def sortr(ctx, *unsorted):
     result = ""
     for i in sorted_list:
         result += i+" "
-    embed.add_field(name=result, value='', inline=False)
+    embed.add_field(name='', value=result, inline=False)
     await ctx.send(embed=embed)
 
 # =uptime command
 @client.command(name='uptime')
 async def uptime(ctx):
-    total_time = datetime.datetime.utcnow() - start_time
+    total_time = datetime.utcnow() - start_time
     hours, remainder = divmod(int(total_time.total_seconds()), 3600)
     minutes, seconds = divmod(remainder, 60)
     days, hours = divmod(hours, 24)
@@ -259,22 +271,22 @@ async def yt(ctx, *query):
 
         long_title=f"{i+1}. {video_titles[i]}"
         short_title=long_title[:256]
-        embed.add_field(name=short_title, value='', inline='False')
+        embed.add_field(name='', value=short_title, inline='False')
         if len(short_title) == 0:
-            embed.add_field(name=long_title, value='', inline='False')
+            embed.add_field(name='', value=long_title, inline='False')
 
         long_title=f"By: {video_authors[i]}\t|\tViews: {humanfriendly.format_number(video_viewcount[i])}"
         short_title=long_title[:256]
-        embed.add_field(name=short_title, value='', inline='False')
+        embed.add_field(name='', value=short_title, inline='False')
         if len(short_title) == 0:
-            embed.add_field(name=long_title, value='', inline='False')
+            embed.add_field(name='', value=long_title, inline='False')
 
         long_title=f"{video_links[i]}"
         tb_url = ""
         short_title=long_title[:256]
-        embed.add_field(name=short_title, value='', inline='False')
+        embed.add_field(name='', value=short_title, inline='False')
         if len(short_title) == 0:
-            embed.add_field(name=long_title, value='', inline='False')
+            embed.add_field(name='', value=long_title, inline='False')
 
         long_title=f"{video_thumbnail[i]}"
         short_title=long_title[:256]

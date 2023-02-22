@@ -11,7 +11,7 @@ Commands are done using the prefix `=` or `\`:
 - `=help`: basically gives the exact same list of commands and uses as seen here (from Github). 
 - `/loldle`: sends the LoLdle link. 
 - `=ping` or `/ping`: returns "pong!" with latency.
-- `=poll -question -option 1 -option2`: spaced apart using `-` with 2-10 option limit.
+- `=poll -question -option 1 -option 2`: spaced apart using `-` with 2-10 option limit.
 - `=profile @mention`: returns the discord avatar of the @mention'd user. 
 - `=sort`: sorts a set of numbers/words in order. 
 - `=sortr`: sorts a set of numbers/words in reverse-order. 
